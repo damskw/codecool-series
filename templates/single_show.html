@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    <script>
+        var videoId = '{{ video_id }}'
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/embed-youtube.js') }}"></script>
+    <div class="card">
+        <div class="header">{{ show.title }}</div>
+        <h1>Actors:</h1>
+        {% for actor in actors %}
+            {{ actor.name }},
+        {% endfor %}
+    <h1>Seasons</h1>
+    {% for season in seasons %}
+        {{ season.title }}
+    {% endfor %}
+    <div id="player">
+
+    </div>
+    </div>
+{% endblock %}

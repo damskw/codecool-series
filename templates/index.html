@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style/form.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/grid.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style/utils.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/pagination.css') }}">
 
     <!-- page specific styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style/detailed-view.css') }}">
@@ -53,13 +54,58 @@
             </p>
         </div>
         <div class="card">
-            <ul>
+            <table>
+                <tr>
+                    <th>Title</th>
+                    <th>Release year</th>
+                    <th>Average runtime</th>
+                    <th>Rating</th>
+                    <th>Trailer</th>
+                    <th>Genres</th>
+                    <th>Homepage</th>
+                </tr>
                 {% for show in shows %}
-                    <li>
-                        <a href="{{ '/tv-show/' + (show['id'] | string) }}">{{ show['title'] }}</a>
-                    </li>
+                    <tr>
+                        <td><a href="{{ '/show/' + (show.id | string) }}">{{ show.title }}</a></td>
+                        <td>{{ show.year }}</td>
+                        <td>{{ show.runtime }}</td>
+                        <td>{{ show.rating|round(2) }}</td>
+                        <td>
+                            {% if show.trailer %}
+                                <a href="{{ show.trailer }}">Watch in YouTube</a>
+                            {% else %}
+                                No URL
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% for genre in genres %}
+                                {% if genre.show_id == show.id %}
+                                    {% for name in genres_names %}
+                                        {% if genre.genre_id == name.id %}
+                                            {{ name.name }},
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}</td>
+                        <td>
+                            {% if show.homepage %}
+                                <a href="{{ show.homepage }}">Visit homepage</a>
+                            {% else %}
+                                No URL
+                            {% endif %}
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
+            </table>
+        </div>
+        <div class="card">
+            <div class="pagination">
+                <a {% if page_number == 1 %} href="#" {% else %} href="{{ page_number - 1 }}" {% endif %}>&laquo;</a>
+                {% for i in range(shown_pages_start, shown_pages_end + 1) %}
+                    <a href="/shows/most-rated/{{ i }}" {% if page_number == i %} class="active" {% endif %}>{{ i }}</a>
+                {% endfor %}
+                <a {% if page_number + 1 == shown_pages_end %} href="#" {% else %} href="{{ page_number + 1 }}" {% endif %}>&laquo;</a>
+            </div>
         </div>
     </section>
     <footer>

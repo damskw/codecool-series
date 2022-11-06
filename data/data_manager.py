@@ -50,11 +50,11 @@ def get_connection_data(db_name=None):
 
     :db_name: optional parameter. By default it uses the environment variable value.
     """
-    if db_name is None:
-        db_name = ensure_var('MY_PSQL_DBNAME')
+    # if db_name is None:
+    #     db_name = ensure_var('MY_PSQL_DBNAME')
 
     return {
-        'dbname': db_name,
+        'dbname': "series",
         'host': ensure_var('MY_PSQL_HOST'),
         'password': ensure_var('MY_PSQL_PASSWORD'),
         'user': ensure_var('MY_PSQL_USER')

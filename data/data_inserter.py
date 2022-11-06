@@ -23,9 +23,11 @@ TRAKT_MAX_SHOW_COUNT = 52500
 
 
 def should_use_trakt():
-    print("The program can try connecting to the TRAKT API to download data or use local data to insert instead (faster)?")
+    print(
+        "The program can try connecting to the TRAKT API to download data or use local data to insert instead (faster)?")
     answer = input("Do you want to connect to the TRAKT API? (y/n) ")
     return answer.lower() == "y"
+
 
 def main():
     # We don't have documentation for trakt, so students shouldn't be exposed to it
