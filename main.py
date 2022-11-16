@@ -19,7 +19,7 @@ def index():
                            genres_names=genres_names)
 
 
-@app.route('/shows/<show_id>')
+@app.route('/show/<show_id>')
 def show_show(show_id):
     show = queries.get_show_by_id(show_id)
     actors = queries.get_show_actors(show_id)
@@ -29,19 +29,22 @@ def show_show(show_id):
                            seasons=seasons)
 
 
+@app.route('/shows/order-by-<order_by>/')
 @app.route('/shows/most-rated')
-def most_rated_shows():
+def most_rated_shows(order_by='rating'):
     page_number = 1
     all_shows = queries.get_shows()
+    shows = queries.get_shows_limited(order_by=order_by)
     all_pages = count_pages(all_shows)
     shown_pages_start, shown_pages_end = get_shown_pages(page_number, all_pages)
     genres = queries.get_show_genres()
     genres_names = queries.get_genres_names()
-    shows = queries.get_shows_ordered_by('rating', "DESC", LIMIT, 0)
+    # shows = queries.get_shows_ordered_by('rating', "DESC", LIMIT, 0)
     return render_template('index.html', shows=shows, genres=genres,
                            genres_names=genres_names, all_shows=all_shows,
                            page_number=page_number, shown_pages_end=shown_pages_end,
-                           shown_pages_start=shown_pages_start)
+                           shown_pages_start=shown_pages_start )
+
 
 
 @app.route('/shows/most-rated/<page_number>')
